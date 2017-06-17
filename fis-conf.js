@@ -75,23 +75,22 @@ fis
     isMod: true,
     release: '${pubPath}/js/$1'
   })
-  .match('${localPath}/(**.json)', {
-    release: '${pubPath}/config/$1'
+  .match('${localPath}/(**).json', {
+    release: '${pubPath}/$1'
+  })
+  .match('${localPath}/(**.py)', {
+    release: '${pubPath}/$1'
   })
   // lib文件夹下所有js文件一起打包
-  .match('${localPath}/lib/**.{js,vue}', {
+  .match('${localPath}/libs/**.{js,vue}', {
     packTo: '${pubPath}/js/pkg_lib.js'
   })
   // lib文件夹下所有css文件一起打包
-  .match('${localPath}/lib/**.{css, less}', {
+  .match('${localPath}/libs/**.{css, less}', {
     packTo: '${pubPath}/css/pkg_lib.css'
   })
   .match('${localPath}/template/(**.less)', {
     release: false
-  })
-  // template文件夹下的所有css文件一起打包
-  .match('${localPath}/template/(**.{vue:less, css})', {
-    packTo: '${pubPath}/css/pkg_activity.css'
   });
 
 /****************************** 模块化配置 ******************************/
@@ -135,7 +134,7 @@ fis
       fis.plugin('skip-packed', {}),
       fis.plugin('http-push', {
         receiver: 'http://115.182.215.159/receiver.php',
-        to: TARGET_PATH
+        to: ''
       })
     ]
   });
@@ -159,9 +158,12 @@ fis.media('qa')
     deploy: [
       // packTo的文件不进行再次发布
       fis.plugin('skip-packed', {}),
-      fis.plugin('http-push', {
-        receiver: 'http://115.182.215.159/receiver.php',
-        to: TARGET_PATH
+      fis.plugin('local-deliver', {
+        to: 'output'
       })
+      // fis.plugin('http-push', {
+      //   receiver: 'http://115.182.215.159/receiver.php',
+      //   to: ''
+      // })
     ]
   });

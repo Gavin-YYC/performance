@@ -5,6 +5,7 @@
     <title>timings demo</title>
     <link rel="stylesheet" href="./main/css/reset.css">
     <link rel="stylesheet" href="./main/css/master.css">
+    <script src="./libs/noMod/mod.js" charset="utf-8"></script>
   </head>
   <body>
     <div id="app" class="flex-column">
@@ -80,9 +81,8 @@
         </div>
       </footer>
     </div>
-    <script src="./libs/noMod/mod.js" charset="utf-8"></script>
     <script type="text/javascript">
-      console.log("da");
+      require(['./index']); //异步加载index.js模块
     </script>
   </body>
 </html>
