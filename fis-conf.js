@@ -1,7 +1,6 @@
 /****************************** 环境变量 ******************************/
 fis.set('localPath', '/src');
 fis.set('pubPath', '/static');
-fis.set('noModPath', '${localPath}/libs/noMod');
 
 /****************************** 编译范围 ******************************/
 fis.set('project.file', ['/src']);
@@ -29,7 +28,7 @@ fis
     })
   })
   // .vue文件，es6解析
-  .match('${localPath}/**.vue:js', {
+  .match('{${localPath}/**.js, ${localPath}/**.vue:js}', {
     parser: [
       fis.plugin('babel-5.x'),
       fis.plugin('translate-es3ify', null, 'append')
@@ -42,26 +41,19 @@ fis
     postprocessor: fis.plugin('autoprefixer', {
       "browsers": ['Firefox >= 20', 'Safari >= 6', 'Explorer >= 9', 'Chrome >= 12', "ChromeAndroid >= 4.0"]
     })
-  })
-  .match('${localPath}/**.js', {
-    isMod: true,
-    parser: [
-      fis.plugin('babel-5.x'),
-      fis.plugin('translate-es3ify', null, 'append')
-    ]
   });
 
 /****************************** 发布目录 ******************************/
 // 公共文件
 fis
-  .match('${localPath}}/**.js', {
+  .match('${localPath}/**.js', {
     isMod: true,
     release: false
   })
-  .match('${noModPath}/mod.js', {
+  .match('{${localPath}/(*.js), ${localPath}/libs/js/noMod/(*.js)}', {
     isMod: false,
     parser: null,
-    release: '${pubPath}/js/mod.js'
+    release: '${pubPath}/js/$1'
   });
 
 // 业务文件
@@ -71,27 +63,41 @@ fis
     useCache : false,
     release: '${pubPath}/index.html'
   })
-  .match('${localPath}/(**.{js,vue})', {
-    isMod: true,
-    release: '${pubPath}/js/$1'
-  })
   .match('${localPath}/(**).json', {
     release: '${pubPath}/$1'
   })
   .match('${localPath}/(**.py)', {
     release: '${pubPath}/$1'
   })
-  // lib文件夹下所有js文件一起打包
-  .match('${localPath}/libs/**.{js,vue}', {
+  /**** JS\VUE begin ***/
+  // 打包合并，重复文件不发布
+  .match('${localPath}/libs/js/mod/**.{js,vue}', {
     packTo: '${pubPath}/js/pkg_lib.js'
   })
-  // lib文件夹下所有css文件一起打包
+  .match('${localPath}/pages/(**.{js,vue})', {
+    isMod: true,
+    release: '${pubPath}/pages/$1'
+  })
+  .match('${localPath}/components/(**.{js,vue})', {
+    isMod: true,
+    release: '${pubPath}/components/$1'
+  })
+  /**** JS\VUE end ***/
+  /**** CSS\LESS begin ***/
+  // 打包合并，重复文件不发布
   .match('${localPath}/libs/**.{css, less}', {
     packTo: '${pubPath}/css/pkg_lib.css'
   })
-  .match('${localPath}/template/(**.less)', {
+  .match('${localPath}/pages/**.{css, less}', {
+    packTo: '${pubPath}/css/pkg_pages.css'
+  })
+  .match('${localPath}/components/**.{css, less}', {
+    packTo: '${pubPath}/css/pkg_components.css'
+  })
+  .match('${localPath}/{pages, components}/(**.less)', {
     release: false
   });
+  /**** CSS\LESS end ***/
 
 /****************************** 模块化配置 ******************************/
 fis.hook('commonjs', {

@@ -1,4 +1,4 @@
-new Vue({
+const app = new Vue({
   el: '#app',
   data: function () {
     return {
@@ -89,3 +89,5 @@ new Vue({
     }
   }
 })
+
+export default app;
