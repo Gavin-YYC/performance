@@ -1,0 +1,112 @@
+
+.waterfall-wrap {
+  margin: 20px;
+  width: 1240px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #555;
+}
+
+.waterfall__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 公共 */
+.waterfall__common-item {
+  height: 24px;
+  font-size: 14px;
+  line-height: 24px;
+}
+.waterfall__common-item:nth-child(2n) {
+  background-color: rgba(0, 0, 0, .05);
+}
+.waterfall__common-item:hover {
+  cursor: pointer;
+  background-color: rgba(255, 200, 0, .3);
+}
+
+/* 资源列表 */
+.waterfall__reource-list {
+  width: 300px;
+  overflow: hidden;
+  border-right: 1px solid #555;
+}
+.waterfall__reource-item {
+  padding-left: 10px;
+  text-overflow: ellipsis;
+}
+
+/* 时间瀑布 */
+.waterfall__timing-list {
+  flex: 1;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+.waterfall__timing-wrap {
+  float: left;
+  min-width: 100%;
+  white-space: nowrap;
+  transform-origin: left;
+}
+.waterfall__timing-cell {
+  height: inherit;
+  text-align: center;
+  display: inline-block;
+  font-size: 12px;
+  border-right: 1px solid #f3f3f3;
+}
+.waterfall__timing-span {
+  display: inline-block;
+}
+.waterfall__timing-span--dns {
+  background-color: #009688;
+  height: 12px;
+}
+.waterfall__timing-span--tcp {
+  background-color: #ff9800;
+  height: 12px;
+}
+.waterfall__timing-span--ssl {
+  background-color: #d367e9;
+  height: 12px;
+}
+.waterfall__timing-span--queue {
+  background-color: red;
+  height: 12px;
+}
+.waterfall__timing-span--request {
+  background-color: #00c853;
+  height: 16px;
+}
+.waterfall__timing-span--response {
+  background-color: #03a9f4;
+  height: 16px;
+}
+
+/* 工具栏 */
+.waterfall__tools {
+  flex: 1;
+  height: 30px;
+  border-bottom: 1px solid #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  user-select: none;
+}
+
+.waterfall__btn {
+  width: 30px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 20px;
+  background: rgba(0, 0, 0, .5);
+}
