@@ -69,6 +69,7 @@
   font-size: 12px;
 }
 .main-content {
+  width: 100px;
   padding: 20px 40px;
 }
 .timeline__date {

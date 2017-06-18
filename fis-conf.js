@@ -91,6 +91,11 @@ fis
     isMod: true,
     release: '${pubPath}/js/components/$1'
   })
+  // vue, vue-resource 文件打包
+  .match('${localPath}/libs/js/mod/{vue,vue-resource}/**.js', {
+    packTo: '${pubPath}/js/pkg_vue.js',
+    release: '${pubPath}/js/pkg_vue.js'
+  })
   /**** JS\VUE end ***/
   /**** CSS\LESS begin ***/
   // 打包合并，重复文件不发布
@@ -137,13 +142,6 @@ fis
     useSprite: false,
     optimizer: null
   })
-  // vue, vue-resource 文件打包
-  .match('${localPath}/libs/js/mod/**.js', {
-    packTo: '${pubPath}/js/pkg_vue.js',
-    release: '${pubPath}/js/pkg_vue.js',
-    optimizer: false
-  })
-  .match('pkg_vue.js',     { optimizer: false } )                         // 该文件不能再次丑化
   .match('*', {
     deploy: [
       // packTo的文件不进行再次发布
@@ -159,13 +157,6 @@ fis
 fis.media('qa')
   .match('*.{js,css,png,vue}',   { useHash: true })                         // 添加指纹
   .match('*.{js,vue}',           { optimizer: fis.plugin('uglify-js') })    // js 压缩
-  // vue, vue-resource 文件打包
-  .match('${localPath}/libs/js/mod/{vue,vue-resource,underscore}/**.js', {
-    packTo: '${pubPath}/js/pkg_vue.js',
-    release: '${pubPath}/js/pkg_vue.js',
-    optimizer: false
-  })
-  .match('pkg_vue.js',     { optimizer: false } )                         // 该文件不能再次丑化
   .match('*.css',          { optimizer: fis.plugin('clean-css')})         // css压缩
   .match('*.{png,jpg}',    { optimizer: fis.plugin('png-compressor') })   // 图片压缩
   .match('::package',      { spriter: fis.plugin('csssprites') })         // 图片合并，需要添加：?__sprite
@@ -175,7 +166,7 @@ fis.media('qa')
       // packTo的文件不进行再次发布
       fis.plugin('skip-packed', {}),
       fis.plugin('local-deliver', {
-        to: 'output'
+        to: '/Users/yangyoucun/.fis3-tmp/www'
       })
       // fis.plugin('http-push', {
       //   receiver: 'http://115.182.215.159/receiver.php',
