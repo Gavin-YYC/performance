@@ -62,7 +62,7 @@ export default {
     date( newVal, val ) {
       if ( newVal.length === 8 ) {
         const xhr = new XMLHttpRequest();
-        xhr.open('get', '../script/data/' + newVal + '.json', false);
+        xhr.open('get', '/static/data/' + newVal + '.json', false);
         xhr.send(null);
         if ( xhr.status >= 200 && xhr.status < 300 || xhr.status === 304 ) {
           this.timings = JSON.parse(xhr.response);
@@ -147,5 +147,59 @@ export default {
   width: inherit;
   height: inherit;
   font-size: 18px;
+}
+
+/* 表格视图 */
+.timeline__wrap {
+  margin-top: 50px;
+  cursor: pointer;
+}
+.timeline__title {
+  text-align: center;
+  font-size: 18px;
+}
+.timeline__td {
+  text-align: center;
+  padding: 5px 10px;
+  border: 1px solid #a3a3a3;
+}
+.timeline__tr:nth-child(2n+2) {
+  background-color: #f5f5f5;
+}
+.timeline__head {
+  background-color: #f3f3f3;
+}
+.timeline__tr:hover {
+  background-color: #ebf2fc;
+}
+
+/* 瀑布流视图 */
+.waterfall-wrap {
+  margin-left: 100px;
+  margin-top: 20px;
+}
+.waterfall__item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.waterfall__title,
+.waterfall__length {
+  height: 30px;
+  line-height: 30px;
+}
+.waterfall__title {
+  width: 150px;
+  text-align: right;
+}
+.waterfall__title::after {
+  content: "："
+}
+.waterfall__length {
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+  padding-left: 10px;
+  background-color: #03a9f4;
 }
 </style>
