@@ -1,7 +1,7 @@
 <template lang="html">
-  <section class="main-content flex-full-space">
+  <section class="main-content">
       <div class="timeline__date">
-        <label class="timeline__date-label flex-row">
+        <label class="timeline__date-label">
           <span>选择日志时间：</span>
           <input type="text" class="timeline__input" v-model="date">
         </label>
@@ -129,9 +129,14 @@ export default {
 </script>
 
 <style lang="less">
+@import "../../libs/css/var.less";
 .main-content {
   width: 100px;
   padding: 20px 40px;
+  .flex-full-space;
+}
+.timeline__date-label{
+  .flex-row;
 }
 .timeline__date {
   height: 30px;

@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="app-container flex-column">
+  <div class="app-container">
     <ui-header></ui-header>
-    <main class="main-wrap flex-row">
+    <main class="main-wrap">
       <ui-menu></ui-menu>
       <ui-content></ui-content>
     </main>
@@ -26,12 +26,15 @@ export default {
 </script>
 
 <style lang="less">
+@import "../libs/css/var.less";
 .app-container {
   background-color: #ececec;
+  .flex-column;
 }
 .main-wrap {
   width: 95%;
   margin: 10px auto;
   background-color: #fff;
+  .flex-row;
 }
 </style>
