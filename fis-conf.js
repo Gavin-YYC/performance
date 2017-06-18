@@ -28,7 +28,7 @@ fis
     })
   })
   // .vue文件，es6解析
-  .match('{${localPath}/**.js, ${localPath}/**.vue:js}', {
+  .match('${localPath}/**.vue:js', {
     parser: [
       fis.plugin('babel-5.x'),
       fis.plugin('translate-es3ify', null, 'append')
@@ -41,6 +41,13 @@ fis
     postprocessor: fis.plugin('autoprefixer', {
       "browsers": ['Firefox >= 20', 'Safari >= 6', 'Explorer >= 9', 'Chrome >= 12', "ChromeAndroid >= 4.0"]
     })
+  })
+  // 所有js文件用es6解析
+  .match('${localPath}/**.js', {
+    parser: [
+      fis.plugin('babel-5.x'),
+      fis.plugin('translate-es3ify', null, 'append')
+    ]
   });
 
 /****************************** 发布目录 ******************************/
@@ -50,9 +57,14 @@ fis
     isMod: true,
     release: false
   })
-  .match('{${localPath}/(*.js), ${localPath}/libs/js/noMod/(*.js)}', {
+  // mod.js该文件不能为一个模块
+  .match('${localPath}/libs/js/noMod/(*.js)', {
     isMod: false,
     parser: null,
+    release: '${pubPath}/js/$1'
+  })
+  // 首页文件
+  .match('${localPath}/(*.js)', {
     release: '${pubPath}/js/$1'
   });
 
@@ -71,16 +83,13 @@ fis
   })
   /**** JS\VUE begin ***/
   // 打包合并，重复文件不发布
-  .match('${localPath}/libs/js/mod/**.{js,vue}', {
-    packTo: '${pubPath}/js/pkg_lib.js'
-  })
   .match('${localPath}/pages/(**.{js,vue})', {
     isMod: true,
-    release: '${pubPath}/pages/$1'
+    release: '${pubPath}/js/pages/$1'
   })
   .match('${localPath}/components/(**.{js,vue})', {
     isMod: true,
-    release: '${pubPath}/components/$1'
+    release: '${pubPath}/js/components/$1'
   })
   /**** JS\VUE end ***/
   /**** CSS\LESS begin ***/
@@ -105,7 +114,8 @@ fis.hook('commonjs', {
   baseUrl: './src/',
   // 必须指定，要不然fis查找会出错
   paths: {
-    "vue": 'libs/js/vue/vue.min.js'
+    "vue": 'libs/js/mod/vue/vue.min.js',
+    "vue-resource": 'libs/js/mod/vue-resource/vue-resource.min.js'
   }
 });
 
@@ -128,7 +138,7 @@ fis
     optimizer: null
   })
   // vue, vue-resource 文件打包
-  .match('${localPath}/libs/js/{vue,vue-resource,underscore}/**.js', {
+  .match('${localPath}/libs/js/mod/**.js', {
     packTo: '${pubPath}/js/pkg_vue.js',
     release: '${pubPath}/js/pkg_vue.js',
     optimizer: false
@@ -150,7 +160,7 @@ fis.media('qa')
   .match('*.{js,css,png,vue}',   { useHash: true })                         // 添加指纹
   .match('*.{js,vue}',           { optimizer: fis.plugin('uglify-js') })    // js 压缩
   // vue, vue-resource 文件打包
-  .match('${localPath}/libs/js/{vue,vue-resource,underscore}/**.js', {
+  .match('${localPath}/libs/js/mod/{vue,vue-resource,underscore}/**.js', {
     packTo: '${pubPath}/js/pkg_vue.js',
     release: '${pubPath}/js/pkg_vue.js',
     optimizer: false
