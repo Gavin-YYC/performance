@@ -3,7 +3,7 @@
       <div class="timeline__date">
         <label class="timeline__date-label">
           <span>选择日志时间：</span>
-          <input type="text" class="timeline__input" v-model="date">
+          <input type="date" class="timeline__input" v-model="date">
         </label>
       </div>
 
@@ -41,7 +41,7 @@ export default {
     return {
       activeMenuIndex: 0,
       activityTiming: {},
-      date: '20170616',
+      date: '',
       timings: [],
       titles: {
         total: "总加载时间",
@@ -58,16 +58,22 @@ export default {
     }
   },
 
+  mounted() {
+    this.$nextTick(() => {
+
+    })
+  },
+
   watch: {
     date( newVal, val ) {
-      if ( newVal.length === 8 ) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('get', '/static/data/' + newVal + '.json', false);
-        xhr.send(null);
-        if ( xhr.status >= 200 && xhr.status < 300 || xhr.status === 304 ) {
-          this.timings = JSON.parse(xhr.response);
+      let date = newVal.replace(/[-\/]/g, '');
+      this.$http.get('/static/data/' + date + '.json').then(response => {
+        if ( response.status >= 200 && response.status < 300 || response.status === 304 ) {
+          this.timings = response.body;
         }
-      }
+      }, error => {
+        this.timings = [];
+      });
     }
   },
 
@@ -153,6 +159,7 @@ export default {
 .timeline__wrap {
   margin-top: 50px;
   cursor: pointer;
+  overflow-x: scroll;
 }
 .timeline__title {
   text-align: center;
