@@ -93,8 +93,8 @@ fis
   })
   // vue, vue-resource 文件打包
   .match('${localPath}/libs/js/mod/{vue,vue-resource}/**.js', {
-    packTo: '${pubPath}/js/pkg_vue.js',
-    release: '${pubPath}/js/pkg_vue.js'
+    packTo: '${pubPath}/js/pkg_base.js',
+    release: '${pubPath}/js/pkg_base.js'
   })
   /**** JS\VUE end ***/
   /**** CSS\LESS begin ***/

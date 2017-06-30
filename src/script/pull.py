@@ -1,6 +1,7 @@
 # coding=utf-8
 import sys
-import subprocess 
+import json
+import subprocess
 
 # 输入日期
 # 格式 20170616
@@ -10,7 +11,7 @@ work_user = 'work'
 work_serv = '192.168.60.59'
 work_path = '/home/work/yangyoucun/performance/'
 scp_prefix = 'scp ' + work_user + '@' + work_serv + ':' + work_path
-target_path = './data/'
+target_path = '../data/'
 
 # 先拉取文件
 for i in range(1, 3):
@@ -28,7 +29,7 @@ for i in range(1, 3):
         content.extend(temp)
 
 with open(target_path + date + '.json', 'w') as f:
-    f.write(str(content))
+    f.write(json.dumps(content))
 
 for i in range(1, 3):
     file_name = date + '0' + str(i) + '.json'
